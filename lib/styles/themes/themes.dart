@@ -15,7 +15,10 @@ ThemeData lightTheme = ThemeData(
         elevation: 0.0,
         iconTheme: IconThemeData(color: Colors.black),
         titleTextStyle: TextStyle(
-            color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold)),
+            fontFamily: 'Oswald',
+            color: Colors.black,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold)),
     floatingActionButtonTheme:
         FloatingActionButtonThemeData(backgroundColor: defaultColor),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -26,8 +29,11 @@ ThemeData lightTheme = ThemeData(
       backgroundColor: Colors.white,
     ),
     textTheme: TextTheme(
-        bodyText1: TextStyle(
-            fontSize: 18.0, fontWeight: FontWeight.w600, color: Colors.black)),
+      bodyText1: TextStyle(
+          fontSize: 18.0, fontWeight: FontWeight.w600, color: Colors.black),
+      subtitle1: TextStyle(
+          fontSize: 16.0, fontWeight: FontWeight.w600, color: Colors.black,height:1.3),
+    ),
     fontFamily: 'Oswald');
 
 ThemeData darkTheme = ThemeData(
@@ -43,7 +49,10 @@ ThemeData darkTheme = ThemeData(
         elevation: 0.0,
         iconTheme: IconThemeData(color: Colors.white),
         titleTextStyle: TextStyle(
-            color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold)),
+            fontFamily: 'Oswald',
+            color: Colors.white,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold)),
     floatingActionButtonTheme:
         FloatingActionButtonThemeData(backgroundColor: Colors.deepOrange),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -54,6 +63,9 @@ ThemeData darkTheme = ThemeData(
       backgroundColor: HexColor('333739'),
     ),
     textTheme: TextTheme(
-        bodyText1: TextStyle(
-            fontSize: 18.0, fontWeight: FontWeight.w600, color: Colors.white)),
+      bodyText1: TextStyle(
+          fontSize: 18.0, fontWeight: FontWeight.w600, color: Colors.white),
+      subtitle1: TextStyle(
+          fontSize: 16.0, fontWeight: FontWeight.w600, color: Colors.black,height: 1.3),
+    ),
     fontFamily: 'Oswald');

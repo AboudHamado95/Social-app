@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_conditional_rendering/conditional.dart';
+import 'package:socialapp/cache/cache_helper.dart';
 import 'package:socialapp/components/components.dart';
+import 'package:socialapp/constants/constants.dart';
 import 'package:socialapp/cubit/login/login_cubit.dart';
 import 'package:socialapp/cubit/login/login_states.dart';
 import 'package:socialapp/presentation/auth/register_screen.dart';
+import 'package:socialapp/presentation/social/layouts/social_layout.dart';
 
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
@@ -15,11 +18,17 @@ class LoginScreen extends StatelessWidget {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     return BlocProvider(
-      create: (context) => SocialLoginCubit(),
-      child: BlocConsumer<SocialLoginCubit, SocialLoginStates>(
+      create: (context) => LoginCubit(),
+      child: BlocConsumer<LoginCubit, LoginStates>(
         listener: (context, state) {
-          if (state is SocialLoginErrorState)
+          if (state is LoginErrorState)
             showToast(message: state.error, state: ToastStates.ERROR);
+          if (state is LoginSuccessState) {
+            CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
+              uId = state.uId;
+              navigateAndFinish(context, SocialLayout());
+            });
+          }
         },
         builder: (context, state) {
           return Scaffold(
@@ -59,11 +68,10 @@ class LoginScreen extends StatelessWidget {
                         defaultFormFeild(
                             controller: passwordController,
                             type: TextInputType.visiblePassword,
-                            suffix: SocialLoginCubit.get(context).suffix,
-                            isPassword:
-                                SocialLoginCubit.get(context).isPassword,
+                            suffix: LoginCubit.get(context).suffix,
+                            isPassword: LoginCubit.get(context).isPassword,
                             suffixPressed: () {
-                              SocialLoginCubit.get(context)
+                              LoginCubit.get(context)
                                   .changePasswordVisibility();
                             },
                             onSubmit: (text) {},
@@ -74,12 +82,12 @@ class LoginScreen extends StatelessWidget {
                         Conditional.single(
                             context: context,
                             conditionBuilder: (context) {
-                              return state is! SocialLoginLoadingState;
+                              return state is! LoginLoadingState;
                             },
                             widgetBuilder: (context) => defaultButton(
                                   function: () {
                                     if (formKey.currentState!.validate()) {
-                                      SocialLoginCubit.get(context).userLogin(
+                                      LoginCubit.get(context).userLogin(
                                           email: emailController.text,
                                           password: passwordController.text);
                                     }

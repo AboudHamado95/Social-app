@@ -5,7 +5,7 @@ import 'package:socialapp/components/components.dart';
 import 'package:socialapp/cubit/register/register_cubit.dart';
 import 'package:socialapp/cubit/register/register_states.dart';
 import 'package:socialapp/presentation/auth/login_screen.dart';
-import 'package:socialapp/presentation/social_layout.dart';
+import 'package:socialapp/presentation/social/layouts/social_layout.dart';
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
@@ -18,10 +18,10 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SocialRegisterCubit(),
-      child: BlocConsumer<SocialRegisterCubit, SocialRegisterStates>(
+      create: (context) => RegisterCubit(),
+      child: BlocConsumer<RegisterCubit, RegisterStates>(
         listener: (context, state) {
-          if (state is SocialCreateUserSuccessState)
+          if (state is CreateUserSuccessState)
             return navigateAndFinish(context, SocialLayout());
         },
         builder: (context, state) {
@@ -69,11 +69,10 @@ class RegisterScreen extends StatelessWidget {
                         defaultFormFeild(
                             controller: passwordController,
                             type: TextInputType.visiblePassword,
-                            suffix: SocialRegisterCubit.get(context).suffix,
-                            isPassword:
-                                SocialRegisterCubit.get(context).isPassword,
+                            suffix: RegisterCubit.get(context).suffix,
+                            isPassword: RegisterCubit.get(context).isPassword,
                             suffixPressed: () {
-                              SocialRegisterCubit.get(context)
+                              RegisterCubit.get(context)
                                   .changePasswordVisibility();
                             },
                             onSubmit: (text) {},
@@ -92,17 +91,17 @@ class RegisterScreen extends StatelessWidget {
                         Conditional.single(
                             context: context,
                             conditionBuilder: (context) {
-                              return state is! SocialRegisterLoadingState;
+                              return state is! RegisterLoadingState;
                             },
                             widgetBuilder: (context) => defaultButton(
                                   function: () {
                                     if (formKey.currentState!.validate()) {
-                                      SocialRegisterCubit.get(context)
-                                          .userRegister(
-                                              name: nameController.text,
-                                              email: emailController.text,
-                                              password: passwordController.text,
-                                              phone: phoneController.text);
+                                      RegisterCubit.get(context).userRegister(
+                                        name: nameController.text,
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                        phone: phoneController.text,
+                                      );
                                     }
                                   },
                                   text: 'register',

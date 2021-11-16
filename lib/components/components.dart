@@ -85,6 +85,19 @@ Widget defaultTextButton({
         },
         child: Text(text.toUpperCase()));
 
+Widget defaultAppBar({
+  required BuildContext context,
+  String? title,
+  List<Widget>? actions,
+}) =>
+    AppBar(
+        leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(Icons.arrow_back)),
+        title: Text(title!),
+        actions: actions!,
+        titleSpacing: 5.0);
+
 void showToast({
   required String message,
   required ToastStates state,

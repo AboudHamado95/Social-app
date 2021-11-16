@@ -1,16 +1,20 @@
 
-abstract class SocialLoginStates {}
+abstract class LoginStates {}
 
-class SocialLoginInitialState extends SocialLoginStates {}
+class LoginInitialState extends LoginStates {}
 
-class SocialLoginLoadingState extends SocialLoginStates {}
+class LoginLoadingState extends LoginStates {}
 
-class SocialLoginSuccessState extends SocialLoginStates {}
+class LoginSuccessState extends LoginStates {
+  final String uId;
 
-class SocialLoginErrorState extends SocialLoginStates {
-  final String error;
-
-  SocialLoginErrorState(this.error);
+  LoginSuccessState(this.uId);
 }
 
-class SocialChangePasswordVisibilityState extends SocialLoginStates {}
+class LoginErrorState extends LoginStates {
+  final String error;
+
+  LoginErrorState(this.error);
+}
+
+class SocialChangePasswordVisibilityState extends LoginStates {}

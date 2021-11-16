@@ -6,10 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socialapp/cubit/register/register_states.dart';
 import 'package:socialapp/models/user.dart';
 
-class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
-  SocialRegisterCubit() : super(SocialRegisterInitialState());
+class RegisterCubit extends Cubit<RegisterStates> {
+  RegisterCubit() : super(RegisterInitialState());
 
-  static SocialRegisterCubit get(context) => BlocProvider.of(context);
+  static RegisterCubit get(context) => BlocProvider.of(context);
 
   void userRegister({
     required String name,
@@ -17,15 +17,23 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
     required String password,
     required String phone,
   }) async {
-    emit(SocialRegisterLoadingState());
+    emit(RegisterLoadingState());
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((value) {
       print(value.user!.email);
       print(value.user!.uid);
-      userCreate(uId: value.user!.uid, name: name, email: email, phone: phone);
+      userCreate(
+          uId: value.user!.uid,
+          name: name,
+          email: email,
+          phone: phone,
+          image:
+              'https://management4volunteers.files.wordpress.com/2013/05/communication-pattern1.jpg',
+          cover:
+              'https://assets-global.website-files.com/5b5aa355afe474a8b1329a37/5b983ec8d826746dbdde7949_1509990774-communication-both-ways-article.png');
     }).catchError((error) {
-      emit(SocialRegisterErrorState(error));
+      emit(RegisterErrorState(error));
     });
   }
 
@@ -34,18 +42,27 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
     required String name,
     required String email,
     required String phone,
+    required String image,
+    required String cover,
   }) async {
-    SocialUser model =
-        SocialUser(uId: uId, name: name, email: email, phone: phone);
+    SocialUser model = SocialUser(
+        uId: uId,
+        name: name,
+        email: email,
+        phone: phone,
+        image: image,
+        cover: cover,
+        bio: 'write your bio...',
+        isEmailVerified: false);
 
     await FirebaseFirestore.instance
         .collection('users')
         .doc(uId)
         .set(model.toMap())
         .then((value) {
-      emit(SocialCreateUserSuccessState());
+      emit(CreateUserSuccessState());
     }).catchError((error) {
-      emit(SocialCreateUserErrorState(error));
+      emit(CreateUserErrorState(error));
     });
   }
 
@@ -56,6 +73,6 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
     isPassword = !isPassword;
     suffix =
         isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
-    emit(SocialRegisterChangePasswordVisibilityState());
+    emit(RegisterChangePasswordVisibilityState());
   }
 }

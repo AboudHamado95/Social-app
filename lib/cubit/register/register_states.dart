@@ -1,24 +1,24 @@
-abstract class SocialRegisterStates {}
+abstract class RegisterStates {}
 
-class SocialRegisterInitialState extends SocialRegisterStates {}
+class RegisterInitialState extends RegisterStates {}
 
-class SocialRegisterLoadingState extends SocialRegisterStates {}
+class RegisterLoadingState extends RegisterStates {}
 
-class SocialRegisterSuccessState extends SocialRegisterStates {}
+class RegisterSuccessState extends RegisterStates {}
 
-class SocialRegisterErrorState extends SocialRegisterStates {
+class RegisterErrorState extends RegisterStates {
   final String error;
 
-  SocialRegisterErrorState(this.error);
+  RegisterErrorState(this.error);
 }
 
-class SocialCreateUserSuccessState extends SocialRegisterStates {}
+class CreateUserSuccessState extends RegisterStates {}
 
-class SocialCreateUserErrorState extends SocialRegisterStates {
+class CreateUserErrorState extends RegisterStates {
   final String error;
 
-  SocialCreateUserErrorState(this.error);
+  CreateUserErrorState(this.error);
 }
 
-class SocialRegisterChangePasswordVisibilityState extends SocialRegisterStates {
+class RegisterChangePasswordVisibilityState extends RegisterStates {
 }
