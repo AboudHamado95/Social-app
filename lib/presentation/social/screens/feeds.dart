@@ -17,7 +17,8 @@ class FeedsScreen extends StatelessWidget {
         var _cubit = SocialCubit.get(context);
         return Conditional.single(
           context: context,
-          conditionBuilder: (context) => _cubit.posts.length > 0,
+          conditionBuilder: (context) =>
+              _cubit.posts.length > 0 && _cubit.userModel != null,
           widgetBuilder: (context) => SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
@@ -49,7 +50,7 @@ class FeedsScreen extends StatelessWidget {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) =>
-                      buildPostItem(context, _cubit.posts[index]),
+                      buildPostItem(context, _cubit.posts[index], index),
                   separatorBuilder: (context, index) => SizedBox(height: 10.0),
                   itemCount: _cubit.posts.length,
                 ),
@@ -65,7 +66,7 @@ class FeedsScreen extends StatelessWidget {
     );
   }
 
-  Widget buildPostItem(context, PostModel model) => Card(
+  Widget buildPostItem(context, PostModel model, index) => Card(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         elevation: 5.0,
         margin: EdgeInsets.symmetric(horizontal: 8.0),
@@ -205,7 +206,7 @@ class FeedsScreen extends StatelessWidget {
                                 width: 5.0,
                               ),
                               Text(
-                                '0',
+                                '${SocialCubit.get(context).likes[index]}',
                                 style: Theme.of(context).textTheme.caption,
                               ),
                             ],
@@ -273,22 +274,25 @@ class FeedsScreen extends StatelessWidget {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        SocialCubit.get(context)
+                            .likePost(SocialCubit.get(context).postsId[index]);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 5.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Icon(
-                              Icons.message_rounded,
+                              Icons.favorite_border_outlined,
                               size: 16.0,
-                              color: Colors.yellow,
+                              color: Colors.red,
                             ),
                             SizedBox(
                               width: 5.0,
                             ),
                             Text(
-                              'comment',
+                              'like',
                               style: Theme.of(context).textTheme.caption,
                             ),
                           ],
