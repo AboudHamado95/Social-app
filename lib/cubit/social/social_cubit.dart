@@ -20,14 +20,14 @@ class SocialCubit extends Cubit<SocialStates> {
 
   static SocialCubit get(context) => BlocProvider.of(context);
 
-  SocialUser? socialModel;
+  SocialUser? userModel;
 
   void getUserData() {
     emit(SocialGetUserLoadingState());
 
     FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
       print(value.data());
-      socialModel = SocialUser.fromJson(value.data()!);
+      userModel = SocialUser.fromJson(value.data()!);
       emit(SocialGetUserSuccessState());
     }).catchError((error) {
       emit(SocialGetUserErrorState(error.toString()));
@@ -134,17 +134,17 @@ class SocialCubit extends Cubit<SocialStates> {
       String? image,
       String? cover}) {
     SocialUser model = SocialUser(
-        uId: socialModel!.uId,
+        uId: userModel!.uId,
         name: name,
-        email: socialModel!.email,
+        email: userModel!.email,
         phone: phone,
-        image: image ?? socialModel!.image,
-        cover: cover ?? socialModel!.cover,
+        image: image ?? userModel!.image,
+        cover: cover ?? userModel!.cover,
         bio: bio,
         isEmailVerified: false);
     FirebaseFirestore.instance
         .collection('users')
-        .doc(socialModel!.uId)
+        .doc(userModel!.uId)
         .update(model.toMap())
         .then((value) {
       getUserData();
@@ -196,9 +196,9 @@ class SocialCubit extends Cubit<SocialStates> {
       {required String dateTime, required String text, String? postImage}) {
     emit(SocialCreatePostLoadingState());
     PostModel model = PostModel(
-        uId: socialModel!.uId,
-        name: socialModel!.name,
-        image: socialModel!.image,
+        uId: userModel!.uId,
+        name: userModel!.name,
+        image: userModel!.image,
         dateTime: dateTime,
         text: text,
         postImage: postImage ?? '');
@@ -209,6 +209,20 @@ class SocialCubit extends Cubit<SocialStates> {
       emit(SocialCreatePostSuccessState());
     }).catchError((error) {
       emit(SocialCreatePostErrorState());
+    });
+  }
+
+  List<PostModel> posts = [];
+  void getPost() {
+    emit(SocialGetPostLoadingState());
+
+    FirebaseFirestore.instance.collection('posts').get().then((value) {
+      value.docs.forEach((element) {
+        posts.add(PostModel.fromJson(element.data()));
+      });
+      emit(SocialGetPostSuccessState());
+    }).catchError((error) {
+      emit(SocialGetPostErrorState(error.toString()));
     });
   }
 }

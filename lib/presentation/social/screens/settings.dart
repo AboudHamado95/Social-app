@@ -36,7 +36,7 @@ class SettingsScreen extends StatelessWidget {
                                 ),
                                 image: DecorationImage(
                                     image:
-                                        NetworkImage('${_cubit.socialModel!.cover}'),
+                                        NetworkImage('${_cubit.userModel!.cover}'),
                                     fit: BoxFit.cover),
                               )),
                         ),
@@ -47,7 +47,7 @@ class SettingsScreen extends StatelessWidget {
                           child: CircleAvatar(
                             radius: 60.0,
                             backgroundImage:
-                                NetworkImage('${_cubit.socialModel!.image}'),
+                                NetworkImage('${_cubit.userModel!.image}'),
                           ),
                         )
                       ]),
@@ -56,11 +56,11 @@ class SettingsScreen extends StatelessWidget {
                   height: 5.0,
                 ),
                 Text(
-                  '${_cubit.socialModel!.name}',
+                  '${_cubit.userModel!.name}',
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 Text(
-                  '${_cubit.socialModel!.bio}',
+                  '${_cubit.userModel!.bio}',
                   style: Theme.of(context).textTheme.caption,
                 ),
                 Padding(

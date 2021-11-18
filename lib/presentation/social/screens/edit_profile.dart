@@ -18,9 +18,9 @@ class EditProfile extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var _cubit = SocialCubit.get(context);
-        nameController.text = _cubit.socialModel!.name!;
-        bioController.text = _cubit.socialModel!.bio!;
-        phoneController.text = _cubit.socialModel!.phone!;
+        nameController.text = _cubit.userModel!.name!;
+        bioController.text = _cubit.userModel!.bio!;
+        phoneController.text = _cubit.userModel!.phone!;
 
         return Scaffold(
           appBar: PreferredSize(
@@ -71,7 +71,7 @@ class EditProfile extends StatelessWidget {
                                       image: DecorationImage(
                                           image: _cubit.coverImage == null
                                               ? NetworkImage(
-                                                  '${_cubit.socialModel!.cover}')
+                                                  '${_cubit.userModel!.cover}')
                                               : FileImage(_cubit.coverImage!)
                                                   as ImageProvider,
                                           fit: BoxFit.cover),
@@ -99,7 +99,7 @@ class EditProfile extends StatelessWidget {
                                     radius: 60.0,
                                     backgroundImage: _cubit.profileImage == null
                                         ? NetworkImage(
-                                            '${_cubit.socialModel!.image}')
+                                            '${_cubit.userModel!.image}')
                                         : FileImage(_cubit.profileImage!)
                                             as ImageProvider),
                               ),
