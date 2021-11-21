@@ -254,6 +254,7 @@ class FeedsScreen extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {},
+                            // SocialCubit.get(context).commentPost(index),
                         child: Row(
                           children: [
                             CircleAvatar(
