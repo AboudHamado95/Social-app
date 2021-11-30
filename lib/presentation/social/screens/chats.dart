@@ -5,6 +5,7 @@ import 'package:socialapp/components/components.dart';
 import 'package:socialapp/cubit/social/social_cubit.dart';
 import 'package:socialapp/cubit/social/social_states.dart';
 import 'package:socialapp/models/user.dart';
+import 'package:socialapp/presentation/social/screens/chat_details.dart';
 
 class ChatsScreen extends StatelessWidget {
   const ChatsScreen({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class ChatsScreen extends StatelessWidget {
                   itemCount: _cubit.users.length,
                   separatorBuilder: (context, index) => myDivider(),
                   itemBuilder: (context, index) =>
-                      buildChatItem(_cubit.users[index]),
+                      buildChatItem(context, _cubit.users[index]),
                 ),
             fallbackBuilder: (context) =>
                 Center(child: CircularProgressIndicator()));
@@ -31,8 +32,8 @@ class ChatsScreen extends StatelessWidget {
     );
   }
 
-  Widget buildChatItem(SocialUser model) => InkWell(
-        onTap: () {},
+  Widget buildChatItem(context, SocialUser model) => InkWell(
+        onTap: () => navigateTo(context, ChatDetails(userModel: model)),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Row(

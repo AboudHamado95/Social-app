@@ -83,3 +83,12 @@ class SocialCreatePostLoadingState extends SocialStates {}
 class SocialCreatePostErrorState extends SocialStates {}
 
 class SocialCreatePostSuccessState extends SocialStates {}
+
+class SocialSendMessageSuccessState extends SocialStates {}
+
+class SocialSendMessageErrorState extends SocialStates {}
+
+class SocialGetMessagesSuccessState extends SocialStates {}
+
+
+
